@@ -1,0 +1,5 @@
+---
+llave: https://syncthing.net/release-key.txt
+systemd: https://raw.githubusercontent.com/syncthing/syncthing/main/etc/linux-systemd/system/syncthing@.service
+usuario: vagrant
+archivo_conf: /home/vagrant/.config/syncthing/config.xml

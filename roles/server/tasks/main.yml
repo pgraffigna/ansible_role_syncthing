@@ -1,0 +1,33 @@
+---
+- name: Importar llave
+  apt_key:
+    url: "{{ llave }}" 
+    state: present
+  
+- name: Agregar repo
+  apt_repository:
+    repo: deb https://apt.syncthing.net/ syncthing stable
+    state: present
+    update_cache: yes
+
+- name: Instalar syncthing
+  apt: 
+    name: syncthing
+  
+- name: crear unidad systemd 
+  get_url:
+    url: "{{ systemd }}"
+    dest: /etc/systemd/system
+    mode: '0755'
+
+- name: Recargar configuracion y reinicar servicio
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: "syncthing@{{ usuario }}"
+
+- name: Modificar archivo de configuracion
+  shell: sed -i 's/127.0.0.1/0.0.0.0/g' "{{ archivo_conf }}"
+  notify: reiniciar
+
+     
